@@ -1,9 +1,10 @@
-import { DUMMY_NEWS } from "@/ dummy-news";
+import { getNewsItem } from "@/lib/news";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-export default function NewsDetailsPage({ params }) {
+
+export default async function NewsDetailsPage({ params }) {
   const newSlug = params.slug;
-  const newsItem = DUMMY_NEWS.find((newsItem) => newsItem.slug === newSlug);
+  const newsItem = await getNewsItem(newSlug)
   
   if (!newsItem) {
     notFound();
@@ -15,7 +16,7 @@ export default function NewsDetailsPage({ params }) {
         <article className="news-article">
           <header>
             <Link href={`/news/${newsItem.slug}/image`}>
-              <img src={`/images/news/${newsItem.image}`} />
+              <img src={`/images/news/${newsItem.image}`}/>
             </Link>
 
             <h1>{newsItem.title}</h1>
